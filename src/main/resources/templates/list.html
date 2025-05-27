@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}"></title>
+</head>
+<body>
+    <h3 th:text="${title}"></h3>
+    <a th:href="@{/form}" th:text="'Create user'"></a>
+    <div th:text="'No hay usuarios'" th:if="${#lists.isEmpty(users)}"></div>
+    <table th:if="${not #lists.isEmpty(users)}">
+        <thead>
+            <tr>
+                <th>id</th>
+                <th>name</th>
+                <th>lastname</th>
+                <th>email</th>
+                <th>username</th>
+                <th>create at</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="user : ${users}">
+                <td th:text="${user.id}"></td>
+                <td th:text="${user.name}"></td>
+                <td th:text="${user.lastname}"></td>
+                <td th:text="${user.email}"></td>
+                <td th:text="${user.username}"></td>
+                <td th:text="${#temporals.format(user.createdAt, 'dd/MM/yyyy HH:mm:ss')}"></td>
+                <td>
+                    <a th:href="@{/form/} + ${user.id}">Edit</a>
+                    <!--
+                    <a th:href="@{/form/{id}(id=${user.id})}">Edit</a>
+                    -->
+                </td>
+                <td>
+                    <a th:href="@{/delete/} + ${user.id}" onclick="return confirm('¿Seguro que desea eliminar?')">Delete</a>
+                    <!--
+                    <a th:href="@{/delete/{id}(id=${user.id})}">Delete</a>
+                    -->
+                </td>
+            </tr>
+        </tbody>
+        </thead>
+    </table>
+
+</body>
+</html>
